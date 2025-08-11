@@ -103,10 +103,15 @@ Ans: D
     - Refresh
 
 ### Core componmenmts
-https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/#application-controller
+https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/
 
-![argocd_architecture](https://argo-cd.readthedocs.io/en/stable/assets/argocd_architecture.png)
+<img src="https://argo-cd.readthedocs.io/en/stable/assets/argocd_architecture.png" 
+     onerror="this.onerror=null; this.src='static/argocd_architecture.png';" 
+     alt="argocd_architecture" />
+
 - controllers
 - API Server
 - Repository Server
 - Application Controller
+
+![alt text](static/image.png)
