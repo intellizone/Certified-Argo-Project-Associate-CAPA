@@ -19,6 +19,8 @@ create_cluster(){
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d > infra/admin-pass.txt
     # disable tls
     kubectl patch cm -n argocd argocd-cmd-params-cm -p '{"data": {"server.insecure": "true"}}'
+    kubectl rollout restart deployment -n argocd argocd-server
+    kubectl rollout status deployment -n argocd argocd-server
     cat infra/admin-pass.txt
     echo
     install_app istio
