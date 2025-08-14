@@ -105,7 +105,7 @@ Ans: D
 ### Core componmenmts
 https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/
 
-<img src="https://argo-cd.readthedocs.io/en/stable/assets/argocd_architectur1e.png" 
+<img src="https://argo-cd.readthedocs.io/en/stable/assets/argocd_architecture.png" 
      onerror="this.onerror=null; this.src='static/argocd_architecture.png';" 
      alt="argocd_architecture" />
 
@@ -114,4 +114,114 @@ https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/
 - Repository Server
 - Application Controller
 
-![alt text](static/image.png)
+![argocd_architecture_simple](static/argocd_architecture_simple.png)
+
+
+### Argo CD reconciliation loop
+![Argo CD reconciliation loop](static/argo_cd_reconciliation_loop.png)
+
+### Synchronization Principles
+- Customization Solutions
+    - Resource hooks --> uses kind: Job
+        - PreSync
+        - Sync
+        - PostSync
+        - Skip
+        - SyncFail
+
+    https://argo-cd.readthedocs.io/en/stable/user-guide/resource_hooks/
+    - Sync waves
+        each sync wave is 2 sec delayed, to modify it update this environment variable ARGOCD_SYNC_WAVE_DELAY
+### Simplifying Application Management
+- Application
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'htt‌ps://github.com/argoproj/argocd-example-apps.git'
+    targetRevision: HEAD
+    path: guestbook
+destination:
+  server: 'htt‌ps://kubernetes.default.svc'
+  namespace: guestbook
+```
+- AppProject
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: production
+  namespace: argocd
+spec:
+  description: Production applications
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: production
+      server: 'htt‌ps://kubernetes.default.svc'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+```
+- Repository credentials
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: private-repo-creds
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  url: 'htt‌ps://github.com/private/repo.git'
+  username: <username>
+  password: <password>
+```
+- Cluster credentials
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: external-cluster-creds
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+type: Opaque
+stringData:
+  name: external-cluster
+  server: 'ht‌tps://external-cluster-api.com'
+  config: |
+    {
+      "bearerToken": "<token>",
+      "tlsClientConfig": {
+         "insecure": false,
+         "caData": "<certificate encoded in base64>"
+      }
+    }
+```
+
+### Argo CD Extensions & Integrations
+- Plugins --> we can manage it with configmap
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+data:
+  context: |
+    region: east
+    environmentName: staging
+
+  template.a-slack-template-with-context: |
+    message: "Something happened in {{ .context.environmentName }} in the {{ .context.region }} data center!"
+```
+
+### Securing Argo CD
+- Use RBAC
+- Manage Secrets Securely
+- Regularly Update Argo CD
