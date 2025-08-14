@@ -4,7 +4,7 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io/foreground
   name: istio
-  namespace: argo
+  namespace: argocd
 spec:
   destination:
     server: https://kubernetes.default.svc
