@@ -1,0 +1,3 @@
+resources:
+- dag-workflow-template.yaml
+- dag-workflow.yaml
