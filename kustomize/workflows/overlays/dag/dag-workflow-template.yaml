@@ -5,7 +5,7 @@ metadata:
   namespace: argo
 spec:
   serviceAccountName: argo
-  template:
+  templates:
   - name: echo
     inputs:
       parameters:
