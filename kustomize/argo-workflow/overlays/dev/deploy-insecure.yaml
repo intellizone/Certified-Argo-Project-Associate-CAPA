@@ -8,5 +8,64 @@ spec:
       containers:
       - name: argo-server
         args:
-        - server
-        - "--secure=false"
+          - server
+          - "--secure=false"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 2746
+            scheme: HTTP
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: argo-workflow:apps/Deployment:argo/argo-server
+  labels:
+    app: argowf
+  name: argo-server
+  namespace: argo
+spec:
+  selector:
+    matchLabels:
+      app: argowf
+  template:
+    metadata:
+      labels:
+        app: argowf
+    spec:
+      containers:
+        - args:
+            - server
+            - '--secure=false'
+          env: []
+          image: quay.io/argoproj/argocli:latest
+          name: argo-server
+          ports:
+            - containerPort: 2746
+              name: web
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 2746
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+      nodeSelector:
+        kubernetes.io/os: linux
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: argo-server
+      volumes:
+        - emptyDir: {}
+          name: tmp
