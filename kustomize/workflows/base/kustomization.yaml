@@ -9,4 +9,4 @@ commonLabels:
   app: workflows
 
 resources:
-- sa.yaml
+- rb.yaml
