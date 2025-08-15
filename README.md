@@ -225,3 +225,164 @@ data:
 - Use RBAC
 - Manage Secrets Securely
 - Regularly Update Argo CD
+
+
+
+## Workflow
+
+A Workflow spec has two core parts:
+
+- Entrypoint: Specifies the name of the template that serves as the entrypoint for the workflow. It defines the starting point of the workflow execution.
+- Templates: A template represents a step or task in the workflow that should be executed. There are six types of templates that we will introduce next.
+
+### Template Types
+- Template Definitions
+  - ***Container***: A Container is the most common template type and represents a step in the workflow that runs a container. It is suitable for executing containerized applications or scripts. Example:
+    ```yaml
+    - name: whalesay
+      container:
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["hello world"]```
+  - ***Resource***: A Resource represents a template for creating, modifying, or deleting Kubernetes resources. It is useful for performing operations on Kubernetes objects. Example:
+    ```yaml
+      - name: k8s-owner-reference
+        resource:
+          action: create
+          manifest: |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              generateName: owned-eg-
+            data:
+              some: value
+    ```
+  - ***Script***: A Script is similar to the container template but allows specifying the script inline without referencing an external container image. It can be used for simple scripts or one-liners. Example:
+    ```yaml
+    - name: gen-random-int
+      script:
+        image: python:alpine3.6
+        command: [python]
+        source: |
+          import random
+          i = random.randint(1, 100)
+          print(i)
+    ```
+  - ***Suspend***: A Suspend is a template that suspends execution, either for a duration or until it is resumed manually. It can be resumed using the CLI, the API endpoint, or the UI. Example:
+    ```yaml
+    - name: delay
+      suspend:
+        duration: "20s"
+    ```
+- Template Invocators
+  - ***DAG***: Defining task as a Dependency Graph, used for complex dependencies and conditional execution
+    ```yaml
+    - name: diamond
+      dag:
+        tasks:
+        - name: A
+          template: echo
+        - name: B
+          dependencies: [A]
+          template: echo
+        - name: C
+          dependencies: [A]
+          template: echo
+        - name: D
+          dependencies: [B, C]
+          template: echo
+    ```
+  - ***Steps***: Steps are defining multiple steps within a template as several steps need to be executed sequentially or in parallel.
+    ```yaml
+    - name: hello-hello-hello
+      steps:
+      - - name: step1
+          template: prepare-data
+      - - name: step2a
+          template: run-data-first-half
+        - name: step2b
+          template: run-data-second-half
+    ```
+
+
+  ### Outputs
+  - Defining Outputs
+  - Accessing Outputs
+
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: Workflow
+  metadata:
+    generateName: artifact-passing-
+  spec:
+    entrypoint: artifact-example
+    templates:
+    - name: artifact-example
+      steps:
+      - - name: generate-artifact
+          template: whalesay
+      - - name: consume-artifact
+          template: print-message
+          arguments:
+            artifacts:
+            - name: message
+              from: "{{steps.generate-artifact.outputs.artifacts.hello-art}}"
+
+    - name: whalesay
+      container:
+        image: docker/whalesay:latest
+        command: [sh, -c]
+        args: ["cowsay hello world | tee /tmp/hello_world.txt"]
+      outputs:
+        artifacts:
+      - name: hello-art
+        path: /tmp/hello_world.txt
+
+    - name: print-message
+      inputs:
+        artifacts:
+        - name: message
+          path: /tmp/message
+      container:
+        image: alpine:latest
+        command: [sh, -c]
+        args: ["cat /tmp/message"]
+  ```
+### WorkflowTemplate
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: WorkflowTemplate
+  metadata:
+    name: sample-template
+  spec:
+    templates:
+    - name: hello-world
+      inputs:
+        parameters:
+          - name: msg
+            value: "Hello World!"
+      container:
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["{{inputs.parameters.msg}}"]
+  ```
+
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: Workflow
+  metadata:
+    generateName: hello-world-
+  spec:
+  entrypoint: whalesay
+  templates:
+    - name: whalesay
+      steps:
+        - - name: hello-world
+            templateRef:
+              name: sample-template
+              template: hello-world
+  ```
+### Argo Workflows Architecture
+- Argo Server - same like kube api server - provides REST API interface for submission monitoring and management 
+- Workflow Controller
+- Argo UI
