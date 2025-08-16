@@ -8,12 +8,14 @@ spec:
   gateways:
   - argowf
   http:
-  - uri:
-        prefix: "/argo-rollouts"
-    rewrite:
-      uri: "/"
-    route:
-    - destination:
-        port:
-          number: 8090
-        host: argo-rollouts-metrics
+  - name: "argo-rollouts"
+    match:
+    - uri:
+          prefix: "/argo-rollouts"
+      rewrite:
+        uri: "/"
+      route:
+      - destination:
+          port:
+            number: 8090
+          host: argo-rollouts-metrics
