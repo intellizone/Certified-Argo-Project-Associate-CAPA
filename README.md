@@ -176,7 +176,9 @@ destination:
   server: 'htt‌ps://kubernetes.default.svc'
   namespace: guestbook
 ```
+
 - AppProject
+
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
@@ -194,7 +196,9 @@ spec:
     - group: '*'
       kind: '*'
 ```
+
 - Repository credentials
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -208,7 +212,9 @@ stringData:
   username: <username>
   password: <password>
 ```
+
 - Cluster credentials
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -413,6 +419,32 @@ A Workflow spec has two core parts:
 - Workflow Controller
 - Argo UI
 
+## Argo Rollouts
+### Continuous Integration
+- Frequent code commits
+- Automated tests
+- Immediate problem detection
+- Reduced integration problems
+
+### Continuous Delivery
+- Automated release process
+- Reliable deployments
+- Rapid release cycles
+- Close collaboration between teams
+
+### Progressive Delivery
+- **Canary releases**: Gradually roll out the change to a small subset of users before rolling it out to the entire user base.
+- **Feature flags**: Control who gets to see what feature in the application, allowing for selective and targeted deployment.
+- **Experiments & A/B testing**: Test different versions of a feature with different segments of the user base.
+- **Phased rollouts**: Slowly roll out features to incrementally larger segments of the user base, monitoring and adjusting based on feedback.
+
+### Deployment Strategies
+- Recreate/fixed deployment
+- Rolling update
+- Blue-green deployment
+- Canary deployment
+
+![alt text](static/Strategies_for_Smooth_and_Reliable_Releases.png)
 
 ---
 
