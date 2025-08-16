@@ -1,2 +1,4 @@
 resources:
 - rollouts.yaml
+- svc-active.yaml
+- svc-preview.yaml
