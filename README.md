@@ -78,27 +78,27 @@ Quiz:
 
 2.1 What is Argo’s role in Kubernetes workflow management?
 
-a. Argo is a database management tool 
-b. Argo provides version-controlled application deployment and workflow automation 
-c. Argo is a containerization platform 
-d. Argo is a networking solution for Kubernetes
+a. Argo is a database management tool \
+b. Argo provides version-controlled application deployment and workflow automation \
+c. Argo is a containerization platform \
+d. Argo is a networking solution for Kubernetes 
 
 Ans: b
 
 2.2 What is the primary role of Kubernetes in the context of Argo’s functionalities?
 
-a. Kubernetes is a version control system
-b. Kubernetes provides essential infrastructure for container orchestration
-c. Kubernetes is a continuous delivery tool
-d. Kubernetes is a database management system
+a. Kubernetes is a version control system \
+b. Kubernetes provides essential infrastructure for container orchestration \
+c. Kubernetes is a continuous delivery tool \
+d. Kubernetes is a database management system 
 
 Ans: b
 
 2.3 How does Argo align with modern development practices, ensuring a single source of truth for both code and infrastructure?
 
-a. Utilizing Docker Compose files
-b. Enforcing Microservices architecture
-c. Removing outdated practices from Kubernetes
+a. Utilizing Docker Compose files \
+b. Enforcing Microservices architecture \
+c. Removing outdated practices from Kubernetes \
 d. Following the principles of GitOps
 
 Ans: D
@@ -336,7 +336,7 @@ A Workflow spec has two core parts:
     ```
 
   - ***Steps***: Steps are defining multiple steps within a template as several steps need to be executed sequentially or in parallel.
-  
+
     ```yaml
     - name: hello-hello-hello
       steps:
@@ -458,6 +458,24 @@ A Workflow spec has two core parts:
 
 ![alt text](static/Strategies_for_Smooth_and_Reliable_Releases.png)
 
+### Building Blocks of Argo Rollouts
+![alt text](static/Building_Blocks_of_Argo_Rollouts.png)
+
+### Argo Rollouts Components
+- Argo Rollouts Controller
+- Argo Rollout Resource - customn resource - https://argo-rollouts.readthedocs.io/en/stable/features/specification/
+- Ingress - Kubernetes Ingress resource - https://kubernetes.io/docs/concepts/services-networking/ingress/
+- Service - Kubernetes Service resource  - https://kubernetes.io/docs/concepts/services-networking/service/
+- ReplicaSet - Kubernetes ReplicaSet resource  - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+- AnalysisTemplate and AnalysisRun
+- Metric Providers
+
+### Argo Rollouts Functionalities
+- Blue-green deployments
+- Canary deployments
+- Advanced traffic routing
+- Integration with metric providers
+- Automated decision making
 ---
 
 ## 🧾 License
