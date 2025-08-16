@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: argo-rollouts
+spec:
+  hosts:
+  - "argowf.localhost"
+  gateways:
+  - argowf
+  http:
+  - uri:
+        prefix: "/argo-rollouts"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        port:
+          number: 8090
+        host: argo-rollouts-metrics
