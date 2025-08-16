@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: argo-rollouts
+spec:
+  hosts:
+  - "argo-rollouts.localhost"
+  gateways:
+  - argo-rollouts
+  http:
+  - route:
+      - destination:
+          port:
+            number: 8090
+          host: argo-rollouts-metrics
