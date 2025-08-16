@@ -65,7 +65,7 @@ This repository demonstrates a GitOps-friendly structure using **ArgoCD**, **Kus
 You can use it as a **reference** for structuring and deploying your own applications.
 
 ### 📂 Folder Overview
-```graphql
+```plaintext
 .
 ├── applications/ # ArgoCD Application CRs (what to deploy)
 └── kustomize/ # App manifests and Kustomize overlays (how to deploy)
@@ -79,7 +79,7 @@ You can use it as a **reference** for structuring and deploying your own applica
 
 Create a new folder under `kustomize/` for your app:
 
-```graphql
+```plaintext
 kustomize/
     └──my-app/
           ├── deployment.yaml

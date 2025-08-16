@@ -160,98 +160,98 @@ https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/
         each sync wave is 2 sec delayed, to modify it update this environment variable ARGOCD_SYNC_WAVE_DELAY
 ### Simplifying Application Management
 - Application
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: guestbook
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: 'htt‌ps://github.com/argoproj/argocd-example-apps.git'
-    targetRevision: HEAD
-    path: guestbook
-destination:
-  server: 'htt‌ps://kubernetes.default.svc'
-  namespace: guestbook
-```
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    name: guestbook
+    namespace: argocd
+  spec:
+    project: default
+    source:
+      repoURL: 'htt‌ps://github.com/argoproj/argocd-example-apps.git'
+      targetRevision: HEAD
+      path: guestbook
+  destination:
+    server: 'htt‌ps://kubernetes.default.svc'
+    namespace: guestbook
+  ```
 
 - AppProject
 
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: production
-  namespace: argocd
-spec:
-  description: Production applications
-  sourceRepos:
-    - '*'
-  destinations:
-    - namespace: production
-      server: 'htt‌ps://kubernetes.default.svc'
-  clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
-```
+  ```yaml
+  apiVersion: argoproj.io/v1alpha1
+  kind: AppProject
+  metadata:
+    name: production
+    namespace: argocd
+  spec:
+    description: Production applications
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: production
+        server: 'htt‌ps://kubernetes.default.svc'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+  ```
 
 - Repository credentials
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: private-repo-creds
-  namespace: argocd
-  labels:
-    argocd.argoproj.io/secret-type: repository
-stringData:
-  url: 'htt‌ps://github.com/private/repo.git'
-  username: <username>
-  password: <password>
-```
+  ```yaml
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: private-repo-creds
+    namespace: argocd
+    labels:
+      argocd.argoproj.io/secret-type: repository
+  stringData:
+    url: 'htt‌ps://github.com/private/repo.git'
+    username: <username>
+    password: <password>
+  ```
 
 - Cluster credentials
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: external-cluster-creds
-  labels:
-    argocd.argoproj.io/secret-type: cluster
-type: Opaque
-stringData:
-  name: external-cluster
-  server: 'ht‌tps://external-cluster-api.com'
-  config: |
-    {
-      "bearerToken": "<token>",
-      "tlsClientConfig": {
-         "insecure": false,
-         "caData": "<certificate encoded in base64>"
+  ```yaml
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: external-cluster-creds
+    labels:
+      argocd.argoproj.io/secret-type: cluster
+  type: Opaque
+  stringData:
+    name: external-cluster
+    server: 'ht‌tps://external-cluster-api.com'
+    config: |
+      {
+        "bearerToken": "<token>",
+        "tlsClientConfig": {
+          "insecure": false,
+          "caData": "<certificate encoded in base64>"
+        }
       }
-    }
-```
+  ```
 
 ### Argo CD Extensions & Integrations
 - Plugins --> we can manage it with configmap
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-notifications-cm
-data:
-  context: |
-    region: east
-    environmentName: staging
+  ```yaml
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: argocd-notifications-cm
+  data:
+    context: |
+      region: east
+      environmentName: staging
 
-  template.a-slack-template-with-context: |
-    message: "Something happened in {{ .context.environmentName }} in the {{ .context.region }} data center!"
-```
+    template.a-slack-template-with-context: |
+      message: "Something happened in {{ .context.environmentName }} in the {{ .context.region }} data center!"
+  ```
 
 ### Securing Argo CD
 - Use RBAC
@@ -270,13 +270,17 @@ A Workflow spec has two core parts:
 ### Template Types
 - Template Definitions
   - ***Container***: A Container is the most common template type and represents a step in the workflow that runs a container. It is suitable for executing containerized applications or scripts. Example:
+
     ```yaml
     - name: whalesay
       container:
         image: docker/whalesay
         command: [cowsay]
-        args: ["hello world"]```
+        args: ["hello world"]
+    ```
+
   - ***Resource***: A Resource represents a template for creating, modifying, or deleting Kubernetes resources. It is useful for performing operations on Kubernetes objects. Example:
+
     ```yaml
       - name: k8s-owner-reference
         resource:
@@ -289,7 +293,9 @@ A Workflow spec has two core parts:
             data:
               some: value
     ```
+
   - ***Script***: A Script is similar to the container template but allows specifying the script inline without referencing an external container image. It can be used for simple scripts or one-liners. Example:
+
     ```yaml
     - name: gen-random-int
       script:
@@ -300,14 +306,18 @@ A Workflow spec has two core parts:
           i = random.randint(1, 100)
           print(i)
     ```
+
   - ***Suspend***: A Suspend is a template that suspends execution, either for a duration or until it is resumed manually. It can be resumed using the CLI, the API endpoint, or the UI. Example:
+
     ```yaml
     - name: delay
       suspend:
         duration: "20s"
     ```
+
 - Template Invocators
   - ***DAG***: Defining task as a Dependency Graph, used for complex dependencies and conditional execution
+
     ```yaml
     - name: diamond
       dag:
@@ -324,7 +334,9 @@ A Workflow spec has two core parts:
           dependencies: [B, C]
           template: echo
     ```
+
   - ***Steps***: Steps are defining multiple steps within a template as several steps need to be executed sequentially or in parallel.
+  
     ```yaml
     - name: hello-hello-hello
       steps:
