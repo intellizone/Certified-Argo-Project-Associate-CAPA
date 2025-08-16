@@ -24,6 +24,7 @@ create_cluster(){
     cat infra/admin-pass.txt
     echo
     install_app istio
+    kubectl wait applications istio -n argocd --for=jsonpath='{.status.health.status}=Healthy' --timeout=180s
     install_app argo-ingress
   else
     echo "Something went wrong please debug..."
@@ -45,5 +46,9 @@ install_all_apps(){
   kubectl apply -f applications/
 }
 
+get_argocd_login(){
+    echo "username: admin"
+    echo "password: $(cat infra/admin-pass.txt)"
+}
 
 "$@"
