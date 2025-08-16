@@ -58,6 +58,92 @@ bash ./infra/scripts/init.sh get_argocd_login
 
 ```
 
+## 🧱 Application Deployment Structure (ArgoCD + Kustomize + Istio)
+
+This repository demonstrates a GitOps-friendly structure using **ArgoCD**, **Kustomize**, and **Istio**.
+
+You can use it as a **reference** for structuring and deploying your own applications.
+
+### 📂 Folder Overview
+```graphql
+.
+├── applications/ # ArgoCD Application CRs (what to deploy)
+└── kustomize/ # App manifests and Kustomize overlays (how to deploy)
+```
+
+---
+
+## 🚀 Deploying Your Own App
+
+### 1. Add App Resources
+
+Create a new folder under `kustomize/` for your app:
+
+```graphql
+kustomize/my-app/
+    ├── deployment.yaml
+    ├── service.yaml
+    ├── virtualservice.yaml
+    ├── gateway.yaml
+    └── kustomization.yaml
+```
+
+Make sure your `VirtualService` includes:
+
+```yaml
+spec:
+  hosts:
+    - my-app.localhost
+# And your Service points to the correct ports.
+```
+### 2. Define an ArgoCD Application
+Create a file: applications/my-app.yaml
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/<username>/Certified-Argo-Project-Associate-CAPA.git
+    path: kustomize/my-app
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+Then apply it:
+
+```bash
+bash ./infra/scripts/init.sh install_app my-app
+```
+### 🌐 Accessing Your App via DNS
+After deployment, your app will be accessible at:
+
+```cpp
+http://<app-name>.localhost:31120
+```
+### 📌 Example:
+If your app name is my-app, visit:
+
+```cpp
+http://my-app.localhost:31120
+```
+#### This works because:
+
+Istio's IngressGateway listens on port 31120
+
+Traffic is routed based on the hostname (Host: my-app.localhost)
+
+Your VirtualService and Gateway are configured accordingly
+
 
 ## 🧹 Cleanup
 
