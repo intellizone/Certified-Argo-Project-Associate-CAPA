@@ -80,12 +80,13 @@ You can use it as a **reference** for structuring and deploying your own applica
 Create a new folder under `kustomize/` for your app:
 
 ```graphql
-kustomize/my-app/
-    ├── deployment.yaml
-    ├── service.yaml
-    ├── virtualservice.yaml
-    ├── gateway.yaml
-    └── kustomization.yaml
+kustomize/
+    └──my-app/
+          ├── deployment.yaml
+          ├── service.yaml
+          ├── virtualservice.yaml
+          ├── gateway.yaml
+          └── kustomization.yaml
 ```
 
 Make sure your `VirtualService` includes:
