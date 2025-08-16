@@ -1,3 +1,4 @@
 resources:
 - base
 - overlays/bluegreen
+- overlays/migrations
