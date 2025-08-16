@@ -7,7 +7,7 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-    app: rollout-bluegreen
+      app: rollout-bluegreen
   template:
     metadata:
       labels:
