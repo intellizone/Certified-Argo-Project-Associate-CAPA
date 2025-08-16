@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: rollout-bluegreen-preview
-    name: rollout-bluegreen-preview
+  name: rollout-bluegreen-preview
 spec:
   ports:
   - name: "80"
