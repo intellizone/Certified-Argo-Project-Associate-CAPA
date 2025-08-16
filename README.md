@@ -1,6 +1,32 @@
 # Certified-Argo-Project-Associate-CAPA
 Certified Argo Project Associate (CAPA)
 
+
+---
+
+## 🚀 Quick Start
+
+To set up a local Kind cluster with Istio and ArgoCD, follow the step-by-step guide:
+
+👉 **[Setup Guide → infra/README.md](infra/README.md)**
+
+This includes:
+
+- Kind cluster creation
+- Istio & ArgoCD installation
+- Accessing the ArgoCD UI
+- Cleanup steps
+
+---
+
+## 📚 Resources
+
+- [ArgoCD Documentation](https://argo-cd.readthedocs.io/)
+- [Istio Documentation](https://istio.io/)
+- [Kind Documentation](https://kind.sigs.k8s.io/)
+
+---
+
 # Introduction to Argo
 
 ## What Is GitOps?
@@ -386,3 +412,18 @@ A Workflow spec has two core parts:
 - Argo Server - same like kube api server - provides REST API interface for submission monitoring and management 
 - Workflow Controller
 - Argo UI
+
+
+---
+
+## 🧾 License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙌 Contributing
+
+Contributions are welcome! Please open issues or submit pull requests if you find bugs or have suggestions.
+
+---
