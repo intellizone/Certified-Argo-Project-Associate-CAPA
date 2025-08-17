@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/nats/native/replicas
+  value: 1

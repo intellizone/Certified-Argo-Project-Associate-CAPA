@@ -15,9 +15,9 @@ patches:
 
 patches:
  - target:
-      group: apps
-      version: v1
-      kind: StatefulSet
-      name: eventbus-default-stan
-   path: sts-replicas.yaml
+      group: argoproj.io
+      version: v1alpha1
+      kind: EventBus
+      name: default
+   path: eventbus-replicas.yaml
 
