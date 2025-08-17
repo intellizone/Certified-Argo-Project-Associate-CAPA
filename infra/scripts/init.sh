@@ -25,6 +25,7 @@ create_cluster(){
     echo "---------------------------------------------"
     echo 
     echo "bash ./infra/scripts/init.sh get_argocd_login"
+    echo
     echo "---------------------------------------------"
     echo
     install_app istio
