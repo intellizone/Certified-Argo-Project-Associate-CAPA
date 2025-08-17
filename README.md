@@ -478,6 +478,14 @@ A Workflow spec has two core parts:
 - Automated decision making
 ---
 
+## Argo Events
+### Event-Driven Architecture
+![Event-Driven Architecture](static/Event-Driven_Architecture.png)
+- Event Source
+- Sensor
+- EventBus
+- Trigger
+
 ## 🧾 License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
