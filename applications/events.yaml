@@ -8,7 +8,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: argo-server
+    namespace: argo-events
   project: default
   source:
     path: ./kustomize/events
