@@ -9,9 +9,7 @@ commonLabels:
   app: argowf
 
 resources:
-# - https://github.com/argoproj/argo-workflows/manifests/cluster-install/?timeout=120&ref=v3.5.2
+## below both are same
 - https://github.com/argoproj/argo-events/manifests/cluster-install/?timeout=120&ref=v1.9.7
 # - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
-- https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
-# - vs.yaml
-# - gw.yaml
+# - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
