@@ -12,8 +12,6 @@ patches:
       kind: Sensor
       name: webhook
    path: webhook-image.yaml
-
-patches:
  - target:
       group: argoproj.io
       version: v1alpha1
