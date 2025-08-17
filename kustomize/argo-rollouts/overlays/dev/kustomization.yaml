@@ -1,2 +1,6 @@
 resources:
   - ../../base
+
+
+patchesStrategicMerge:
+  - deploy-replicas.yaml
