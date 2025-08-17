@@ -1,5 +1,7 @@
 resources:
 - https://raw.githubusercontent.com/lftraining/LFS256-code/main/argoevents/pulsar.yaml
+- https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/event-sources/pulsar.yaml
+- https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/sensors/pulsar.yaml
 
 patches:
  - target:
