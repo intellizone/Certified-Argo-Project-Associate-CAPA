@@ -21,10 +21,11 @@ create_cluster(){
     kubectl patch cm -n argocd argocd-cmd-params-cm -p '{"data": {"server.insecure": "true"}}'
     kubectl rollout restart deployment -n argocd argocd-server
     kubectl rollout status deployment -n argocd argocd-server
-    cat infra/admin-pass.txt
+    echo "get password for login by running the following command: "
+    echo "bash ./infra/scripts/init.sh get_argocd_login"
     echo
     install_app istio
-    kubectl wait applications istio -n argocd --for=jsonpath='{.status.health.status}=Healthy' --timeout=180s
+    kubectl wait applications istio -n argocd --for=jsonpath='{.status.sync.status}=Synced' --timeout=180s
     install_app argo-ingress
   else
     echo "Something went wrong please debug..."
