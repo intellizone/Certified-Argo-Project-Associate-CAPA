@@ -10,6 +10,6 @@ commonLabels:
 
 resources:
 ## below both are same
-- https://github.com/argoproj/argo-events/manifests/cluster-install/?timeout=120&ref=v1.9.7
-# - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
+# - https://github.com/argoproj/argo-events/manifests/cluster-install/?timeout=120&ref=v1.9.7
+- https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
 # - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
