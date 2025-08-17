@@ -1,2 +1,10 @@
 resources:
 - https://raw.githubusercontent.com/lftraining/LFS256-code/main/argoevents/pulsar.yaml
+
+patches:
+ - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: pulsar
+   path: svc-patch.yaml
