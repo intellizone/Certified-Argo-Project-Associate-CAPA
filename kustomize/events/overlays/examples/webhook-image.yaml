@@ -1,3 +1,7 @@
 - op: replace
   path: /spec/triggers/0/template/k8s/source/resource/spec/templates/0/container/image
   value: busybox
+
+- op: replace
+  path: /spec/triggers/0/template/k8s/source/resource/spec/templates/0/container/command
+  value: [echo]
