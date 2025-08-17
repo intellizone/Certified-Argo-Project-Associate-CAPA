@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: webhook
+spec:
+  triggers:
+    - template:
+        name: webhook-workflow-trigger
+        k8s:
+          source:
+            resource:
+              spec:
+                templates:
+                - name: whalesay
+                  container:
+                    image: busybox
+                    command: [echo]

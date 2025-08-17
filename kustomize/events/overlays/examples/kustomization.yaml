@@ -4,3 +4,6 @@ resources:
 - https://raw.githubusercontent.com/argoproj/argo-events/master/examples/rbac/sensor-rbac.yaml
 - https://raw.githubusercontent.com/argoproj/argo-events/master/examples/rbac/workflow-rbac.yaml
 - https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/sensors/webhook.yaml
+
+patchesStrategicMerge:
+- webhook-image.yaml
